@@ -38,3 +38,9 @@ Public Sub SaveDXF()
     Print #1, Radius
   
 End Sub
+
+Sub Draw()
+
+    Call DrawCircle(x, y, Radius)
+
+End Sub

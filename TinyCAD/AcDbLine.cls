@@ -43,6 +43,12 @@ Public Sub SaveDXF()
 
 End Sub
 
+Sub Draw()
+
+    Call DrawLine(x1, y1, x2, y2)
+
+End Sub
+
 
 
 

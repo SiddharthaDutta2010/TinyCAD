@@ -5,6 +5,7 @@ Form=MainForm.frm
 Class=AcDbLine; AcDbLine.cls
 Class=AcDbCircle; AcDbCircle.cls
 Module=DXFUtility; DXFUtility.bas
+Module=Module1; GraphicsUtillities.bas
 Startup="MainForm"
 HelpFile=""
 ExeName32="TinyCAD.exe"

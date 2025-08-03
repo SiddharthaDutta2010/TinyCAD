@@ -33,13 +33,13 @@ Begin VB.Form MainForm
       TabHeight       =   520
       TabCaption(0)   =   "Circle"
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "btnAddCircle"
-      Tab(0).Control(1)=   "txtRadius"
-      Tab(0).Control(2)=   "txtY"
+      Tab(0).Control(0)=   "Label1"
+      Tab(0).Control(1)=   "Label3"
+      Tab(0).Control(2)=   "Label4"
       Tab(0).Control(3)=   "txtX"
-      Tab(0).Control(4)=   "Label4"
-      Tab(0).Control(5)=   "Label3"
-      Tab(0).Control(6)=   "Label1"
+      Tab(0).Control(4)=   "txtY"
+      Tab(0).Control(5)=   "txtRadius"
+      Tab(0).Control(6)=   "btnAddCircle"
       Tab(0).ControlCount=   7
       TabCaption(1)   =   "Line"
       Tab(1).ControlEnabled=   -1  'True
@@ -193,7 +193,6 @@ Begin VB.Form MainForm
    End
    Begin VB.PictureBox Editor 
       Align           =   3  'Align Left
-      AutoRedraw      =   -1  'True
       BackColor       =   &H00FFFF00&
       Height          =   9165
       Left            =   0
@@ -254,14 +253,37 @@ fileName = "d:\Ducument1.dxf"
 
 End Sub
 
+Private Sub Editor_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+
+    Me.Caption = Str(x - Editor.Width / 2) + "," + Str(Editor.Height / 2 - y)
+
+End Sub
+
 Private Sub Form_Activate()
-DrawAxis
+    RefreshScreen
 End Sub
 
 
+Sub RefreshScreen()
+
+    Editor.Cls
+
+    DrawAxis
+    
+    DrawEntities
+
+End Sub
+
+Sub DrawEntities()
+
+ For Each entity In entities
+            Call entity.Draw
+ Next
+
+End Sub
 
 Private Sub Form_Paint()
-DrawAxis
+    RefreshScreen
 End Sub
 
 Sub DrawAxis()
@@ -287,43 +309,14 @@ Private Sub btnAddCircle_Click()
 End Sub
 
 Private Sub btnAddLine_Click()
-
-    Call DrawLine(Val(txtX1.Text), Val(txtY1.Text), Val(txtX2.Text), Val(txtY2.Text))
    
     Dim lineObj As New AcDbLine
     Call lineObj.SetData(Val(txtX1.Text), Val(txtY1.Text), Val(txtX2.Text), Val(txtY2.Text))
     Call entities.Add(lineObj)
+    
+    RefreshScreen
 
 End Sub
 
-Sub DrawCircle(x As Double, y As Double, Radius As Double)
-
-    Editor.Circle (Editor.Width / 2 + x, Editor.Height / 2 - y), Radius
-
-End Sub
-
-Sub DrawLine(x1 As Double, y1 As Double, x2 As Double, y2 As Double)
-
-    Editor.Line (Editor.Width / 2 + x1, Editor.Height / 2 - y1)-(Editor.Width / 2 + x2, Editor.Height / 2 - y2)
-
-End Sub
-
-Sub Editor_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-   
-   clickCount = clickCount + 1
-   
-   If clickCount = 1 Then
-    x1 = x
-    y1 = y
-   ElseIf clickCount = 2 Then
-    x2 = x
-    y2 = y
-    Editor.Line (x1, y1)-(x2, y2)
-    Radius = Sqr((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
-    Editor.Circle (x1, y1), Radius
-    clickCount = 0
-   End If
-      
-End Sub
 
 
