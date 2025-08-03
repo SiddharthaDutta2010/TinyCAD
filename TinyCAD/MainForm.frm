@@ -42,6 +42,7 @@ Begin VB.Form MainForm
       Tab(0).Control(6)=   "btnAddCircle"
       Tab(0).ControlCount=   7
       TabCaption(1)   =   "Line"
+      TabPicture(1)   =   "MainForm.frx":0000
       Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "Label5"
       Tab(1).Control(0).Enabled=   0   'False
@@ -82,7 +83,7 @@ Begin VB.Form MainForm
          Height          =   495
          Left            =   2520
          TabIndex        =   17
-         Text            =   "-2000"
+         Text            =   "500"
          Top             =   1320
          Width           =   1575
       End
@@ -255,7 +256,38 @@ End Sub
 
 Private Sub Editor_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
 
-    Me.Caption = Str(x - Editor.Width / 2) + "," + Str(Editor.Height / 2 - y)
+    RefreshScreen
+
+    'Me.Caption = Str(x - Editor.Width / 2) + "," + Str(Editor.Height / 2 - y)
+    Editor.Circle (x, y), 100
+    
+    For Each entity In entities
+    
+                If entity.getObjectName() = "AcDbLine" Then
+                
+                    ex1 = entity.x1
+                    ey1 = entity.y1
+                    
+                    ex2 = entity.x2
+                    ey2 = entity.y2
+                    
+                    ey1 = -1 * ey1
+                    ey2 = -1 * ey2
+    
+                    ex1 = ex1 + Editor.Width / 2
+                    ey1 = ey1 + Editor.Height / 2
+                    
+                    ex2 = ex2 + Editor.Width / 2
+                    ey2 = ey2 + Editor.Height / 2
+                    
+                    Me.Caption = Str(ex1) + "," + Str(ey1)
+    
+                    Editor.Line (ex1, ey1)-(x, y)
+                    Editor.Line (ex2, ey2)-(x, y)
+                
+                End If
+                
+    Next
 
 End Sub
 

@@ -7,6 +7,14 @@ End Sub
 
 Public Sub DrawLine(x1 As Double, y1 As Double, x2 As Double, y2 As Double)
 
-MainForm.Editor.Line (MainForm.Editor.Width / 2 + x1, MainForm.Editor.Height / 2 - y1)-(MainForm.Editor.Width / 2 + x2, MainForm.Editor.Height / 2 - y2)
+ex1 = MainForm.Editor.Width / 2 + x1
+ey1 = MainForm.Editor.Height / 2 - y1
+
+ex2 = MainForm.Editor.Width / 2 + x2
+ey2 = MainForm.Editor.Height / 2 - y2
+
+MainForm.Editor.Line (ex1, ey1)-(ex2, ey2)
+
+'MainForm.Editor.Line (MainForm.Editor.Width / 2 + x1, MainForm.Editor.Height / 2 - y1)-(MainForm.Editor.Width / 2 + x2, MainForm.Editor.Height / 2 - y2)
 
 End Sub

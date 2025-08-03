@@ -16,6 +16,10 @@ Public y As Double
 
 Public Radius As Double
 
+Function getObjectName() As String
+    getObjectName = "AcDbCircle"
+End Function
+
 Public Sub SetData(x, y, Radius)
 
     Me.x = x

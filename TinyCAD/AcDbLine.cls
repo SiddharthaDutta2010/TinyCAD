@@ -17,6 +17,10 @@ Public y1 As Double
 Public x2 As Double
 Public y2 As Double
 
+Function getObjectName() As String
+    getObjectName = "AcDbLine"
+End Function
+
 Public Sub SetData(x1, y1, x2, y2)
 
     Me.x1 = x1
@@ -46,6 +50,8 @@ End Sub
 Sub Draw()
 
     Call DrawLine(x1, y1, x2, y2)
+    
+    Call DrawCircle(x1, y1, 100)
 
 End Sub
 
