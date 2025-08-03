@@ -6,17 +6,17 @@ Begin VB.Form MainForm
    ClientHeight    =   9165
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   11775
+   ClientWidth     =   17145
    LinkTopic       =   "Form1"
    ScaleHeight     =   9165
-   ScaleWidth      =   11775
+   ScaleWidth      =   17145
    StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton btnSave 
       Caption         =   "Save DXF"
       Height          =   1095
-      Left            =   8040
+      Left            =   12360
       TabIndex        =   20
-      Top             =   6240
+      Top             =   360
       Width           =   2055
    End
    Begin TabDlg.SSTab SSTab2 
@@ -33,13 +33,13 @@ Begin VB.Form MainForm
       TabHeight       =   520
       TabCaption(0)   =   "Circle"
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "Label1"
-      Tab(0).Control(1)=   "Label3"
-      Tab(0).Control(2)=   "Label4"
+      Tab(0).Control(0)=   "btnAddCircle"
+      Tab(0).Control(1)=   "txtRadius"
+      Tab(0).Control(2)=   "txtY"
       Tab(0).Control(3)=   "txtX"
-      Tab(0).Control(4)=   "txtY"
-      Tab(0).Control(5)=   "txtRadius"
-      Tab(0).Control(6)=   "btnAddCircle"
+      Tab(0).Control(4)=   "Label4"
+      Tab(0).Control(5)=   "Label3"
+      Tab(0).Control(6)=   "Label1"
       Tab(0).ControlCount=   7
       TabCaption(1)   =   "Line"
       Tab(1).ControlEnabled=   -1  'True
@@ -107,7 +107,7 @@ Begin VB.Form MainForm
          Height          =   735
          Left            =   -73920
          TabIndex        =   9
-         Top             =   3840
+         Top             =   3240
          Width           =   2415
       End
       Begin VB.TextBox txtRadius 
@@ -229,34 +229,36 @@ Dim clickCount As Integer
 Dim x1 As Integer
 Dim y1 As Integer
 
+Dim entities As New Collection
+
 Private Sub btnSave_Click()
-
     SaveDXF
-
 End Sub
 
 Sub SaveDXF()
-
+   
 Dim fileName As String
 fileName = "d:\Ducument1.dxf"
 
-Open fileName For Output As #1
+    Open fileName For Output As #1
+    
+        AddDXFHeader
+        
+        For Each entity In entities
+            Call entity.SaveDXF
+        Next
 
-    AddDXFHeader
+        AddDXFFooter
     
-    Call SaveLine(1000, 2000, 3000, 5000)
-    
-    Call SaveCircle(1000, 2000, 500)
-    
-    AddDXFFooter
-
-Close #1
+    Close #1
 
 End Sub
 
 Private Sub Form_Activate()
 DrawAxis
 End Sub
+
+
 
 Private Sub Form_Paint()
 DrawAxis
@@ -277,12 +279,20 @@ End Sub
 Private Sub btnAddCircle_Click()
     
     Call DrawCircle(Val(txtX.Text), Val(txtY.Text), Val(txtRadius.Text))
+    
+    Dim circleObj As New AcDbCircle
+    Call circleObj.SetData(Val(txtX.Text), Val(txtY.Text), Val(txtRadius.Text))
+    Call entities.Add(circleObj)
 
 End Sub
 
 Private Sub btnAddLine_Click()
 
     Call DrawLine(Val(txtX1.Text), Val(txtY1.Text), Val(txtX2.Text), Val(txtY2.Text))
+   
+    Dim lineObj As New AcDbLine
+    Call lineObj.SetData(Val(txtX1.Text), Val(txtY1.Text), Val(txtX2.Text), Val(txtY2.Text))
+    Call entities.Add(lineObj)
 
 End Sub
 
@@ -315,4 +325,5 @@ Sub Editor_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Sing
    End If
       
 End Sub
+
 
