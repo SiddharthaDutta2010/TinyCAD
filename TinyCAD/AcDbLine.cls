@@ -51,9 +51,20 @@ Sub Draw()
 
     Call DrawLine(x1, y1, x2, y2)
     
-    Call DrawCircle(x1, y1, 100)
+'    Call DrawCircle(x1, y1, 100)
 
 End Sub
+
+
+
+
+
+
+
+
+
+
+
 
 
 

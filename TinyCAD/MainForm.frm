@@ -259,32 +259,58 @@ Private Sub Editor_MouseMove(Button As Integer, Shift As Integer, x As Single, y
     RefreshScreen
 
     'Me.Caption = Str(x - Editor.Width / 2) + "," + Str(Editor.Height / 2 - y)
-    Editor.Circle (x, y), 100
+     Editor.Circle (x, y), 100
     
     For Each entity In entities
     
                 If entity.getObjectName() = "AcDbLine" Then
-                
+
                     ex1 = entity.x1
                     ey1 = entity.y1
                     
-                    ex2 = entity.x2
-                    ey2 = entity.y2
-                    
                     ey1 = -1 * ey1
-                    ey2 = -1 * ey2
-    
+                    
                     ex1 = ex1 + Editor.Width / 2
                     ey1 = ey1 + Editor.Height / 2
                     
+                    ' Editor.Line (ex1, ey1)-(x, y)
+                    
+                    d1 = Sqr((ex1 - x) ^ 2 + (ey1 - y) ^ 2)
+                    
+'                    If d1 <= 100 Then
+'                        Editor.Circle (ex1, ey1), 100
+'                    End If
+
+                    ex2 = entity.x2
+                    ey2 = entity.y2
+                    
+                    ey2 = -1 * ey2
+
                     ex2 = ex2 + Editor.Width / 2
                     ey2 = ey2 + Editor.Height / 2
                     
-                    Me.Caption = Str(ex1) + "," + Str(ey1)
-    
-                    Editor.Line (ex1, ey1)-(x, y)
-                    Editor.Line (ex2, ey2)-(x, y)
-                
+                    d2 = Sqr((ex2 - x) ^ 2 + (ey2 - y) ^ 2)
+                    
+'                    If d2 <= 100 Then
+'                        Editor.Circle (ex2, ey2), 100
+'                    End If
+                    
+                    L = Sqr((ex1 - ex2) ^ 2 + (ey1 - ey2) ^ 2)
+                    
+                    xz = (d2 ^ 2 - d1 ^ 2 + L ^ 2) / (2 * L)
+                    
+                    d = Sqr(d2 ^ 2 - xz ^ 2)
+
+                    'Me.Caption = Str(ex1) + "," + Str(ey1)
+                     Me.Caption = Str(dist)
+                     
+                    If d <= 100 Then
+                        Editor.Circle (ex1, ey1), 100
+                        Editor.Circle (ex2, ey2), 100
+                    End If
+
+                    'Editor.Line (ex2, ey2)-(x, y)
+
                 End If
                 
     Next
