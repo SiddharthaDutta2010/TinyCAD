@@ -11,13 +11,13 @@ Begin VB.Form MainForm
    ScaleHeight     =   9165
    ScaleWidth      =   11775
    StartUpPosition =   3  'Windows Default
-   Begin VB.CommandButton Command1 
-      Caption         =   "Command1"
+   Begin VB.CommandButton btnSave 
+      Caption         =   "Save DXF"
       Height          =   1095
-      Left            =   8280
+      Left            =   8040
       TabIndex        =   20
-      Top             =   5640
-      Width           =   2175
+      Top             =   6240
+      Width           =   2055
    End
    Begin TabDlg.SSTab SSTab2 
       Height          =   4935
@@ -226,8 +226,33 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim clickCount As Integer
-Dim X1 As Integer
-Dim Y1 As Integer
+Dim x1 As Integer
+Dim y1 As Integer
+
+Private Sub btnSave_Click()
+
+    SaveDXF
+
+End Sub
+
+Sub SaveDXF()
+
+Dim fileName As String
+fileName = "d:\Ducument1.dxf"
+
+Open fileName For Output As #1
+
+    AddDXFHeader
+    
+    Call SaveLine(1000, 2000, 3000, 5000)
+    
+    Call SaveCircle(1000, 2000, 500)
+    
+    AddDXFFooter
+
+Close #1
+
+End Sub
 
 Private Sub Form_Activate()
 DrawAxis
@@ -261,31 +286,31 @@ Private Sub btnAddLine_Click()
 
 End Sub
 
-Sub DrawCircle(X As Double, Y As Double, Radius As Double)
+Sub DrawCircle(x As Double, y As Double, Radius As Double)
 
-    Editor.Circle (Editor.Width / 2 + X, Editor.Height / 2 - Y), Radius
-
-End Sub
-
-Sub DrawLine(X1 As Double, Y1 As Double, X2 As Double, Y2 As Double)
-
-    Editor.Line (Editor.Width / 2 + X1, Editor.Height / 2 - Y1)-(Editor.Width / 2 + X2, Editor.Height / 2 - Y2)
+    Editor.Circle (Editor.Width / 2 + x, Editor.Height / 2 - y), Radius
 
 End Sub
 
-Sub Editor_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Sub DrawLine(x1 As Double, y1 As Double, x2 As Double, y2 As Double)
+
+    Editor.Line (Editor.Width / 2 + x1, Editor.Height / 2 - y1)-(Editor.Width / 2 + x2, Editor.Height / 2 - y2)
+
+End Sub
+
+Sub Editor_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
    
    clickCount = clickCount + 1
    
    If clickCount = 1 Then
-    X1 = X
-    Y1 = Y
+    x1 = x
+    y1 = y
    ElseIf clickCount = 2 Then
-    X2 = X
-    Y2 = Y
-    Editor.Line (X1, Y1)-(X2, Y2)
-    Radius = Sqr((X2 - X1) ^ 2 + (Y2 - Y1) ^ 2)
-    Editor.Circle (X1, Y1), Radius
+    x2 = x
+    y2 = y
+    Editor.Line (x1, y1)-(x2, y2)
+    Radius = Sqr((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
+    Editor.Circle (x1, y1), Radius
     clickCount = 0
    End If
       
