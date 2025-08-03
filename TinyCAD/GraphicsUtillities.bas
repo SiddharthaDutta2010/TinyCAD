@@ -1,4 +1,4 @@
-Attribute VB_Name = "Module1"
+Attribute VB_Name = "GraphicsUtillities"
 Public Sub DrawCircle(x As Double, y As Double, Radius As Double)
 
 MainForm.Editor.Circle (MainForm.Editor.Width / 2 + x, MainForm.Editor.Height / 2 - y), Radius
@@ -15,6 +15,13 @@ ey2 = MainForm.Editor.Height / 2 - y2
 
 MainForm.Editor.Line (ex1, ey1)-(ex2, ey2)
 
-'MainForm.Editor.Line (MainForm.Editor.Width / 2 + x1, MainForm.Editor.Height / 2 - y1)-(MainForm.Editor.Width / 2 + x2, MainForm.Editor.Height / 2 - y2)
+End Sub
+
+Public Sub DrawBox(x, y, size)
+
+MainForm.Editor.Line (x + size, y + size)-(x + size, y - size)
+MainForm.Editor.Line (x + size, y + size)-(x - size, y + size)
+MainForm.Editor.Line (x + size, y - size)-(x - size, y - size)
+MainForm.Editor.Line (x - size, y - size)-(x - size, y + size)
 
 End Sub
